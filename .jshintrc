@@ -68,5 +68,7 @@
     "worker"        : false,
     "wsh"           : false,
     "yui"           : false,
-    "globals"       : {}
+    "globals"       : {
+      "app": true
+    }
 }

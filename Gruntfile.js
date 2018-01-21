@@ -6,6 +6,11 @@ module.exports = function(grunt) { // jshint ignore:line
     "app": {
       "conf": "app/conf/",
       "images": "app/images/",
+      "js": {
+        "root": "app/js/",
+        "controllers": "app/js/controllers/",
+        "services": "app/js/services/"
+      },
       "views": {
         "root": "app/view/",
         "layouts": "app/view/layouts/",
@@ -16,15 +21,27 @@ module.exports = function(grunt) { // jshint ignore:line
     "build": "build/",
     "dist": {
       "root": "dist/",
+      "scripts": "dist/scripts/",
       "styles": "dist/styles/"
     },
     "nodeModules": "node_modules/"
   };
 
   grunt.initConfig({
+    "pkg": grunt.file.readJSON("package.json"),
     "clean": {
       "dev": [directories.build],
       "dist": [directories.dist.root]
+    },
+    "concat": {
+      "dist": {
+        "src": [
+          directories.app.js.root + "app.js",
+          directories.app.js.services + "Board.js",
+          directories.app.js.controllers + "Boards.js"
+        ],
+        "dest": directories.build + "<%= pkg.name %>.js"
+      }
     },
     "copy": {
       "dist": {
@@ -52,6 +69,12 @@ module.exports = function(grunt) { // jshint ignore:line
             "flatten": true,
             "src": [directories.nodeModules + "bootstrap/dist/css/bootstrap.min.css"],
             "dest": directories.dist.styles
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.nodeModules + "angular/angular.min.js"],
+            "dest": directories.dist.scripts
           }
         ]
       }
@@ -69,10 +92,19 @@ module.exports = function(grunt) { // jshint ignore:line
               "style": directories.app.views.partials + "style.html"
             },
             "components": {
+              "boards": directories.app.views.components + "boards.html",
               "header": directories.app.views.components + "header.html"
             }
           }
         }
+      }
+    },
+    "uglify": {
+      "dist": {
+        "files": [{
+          "src": directories.build + "<%= pkg.name %>.js",
+          "dest": directories.dist.scripts + "<%= pkg.name %>.min.js"
+        }]
       }
     },
     "watch": {
@@ -80,7 +112,8 @@ module.exports = function(grunt) { // jshint ignore:line
         "files": [
           directories.app.views.root + "**",
           directories.app.conf + "**",
-          directories.app.images + "**"
+          directories.app.images + "**",
+          directories.app.js.root + "**"
         ],
         "tasks": ["build"],
         "options": {
@@ -91,10 +124,19 @@ module.exports = function(grunt) { // jshint ignore:line
   });
 
   grunt.loadNpmTasks("grunt-contrib-clean");
+  grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-html-build");
 
-  grunt.registerTask("build", ["clean:dist", "htmlbuild", "copy", "clean:dev"]);
+  grunt.registerTask("build", [
+    "clean:dist",
+    "htmlbuild",
+    "copy",
+    "concat",
+    "uglify",
+    "clean:dev"
+  ]);
 
 };
