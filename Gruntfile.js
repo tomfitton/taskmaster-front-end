@@ -9,17 +9,22 @@ module.exports = function(grunt) { // jshint ignore:line
       "views": {
         "root": "app/view/",
         "layouts": "app/view/layouts/",
+        "components": "app/view/components/",
         "partials": "app/view/partials/"
       }
     },
     "build": "build/",
-    "dist": "dist/"
+    "dist": {
+      "root": "dist/",
+      "styles": "dist/styles/"
+    },
+    "nodeModules": "node_modules/"
   };
 
   grunt.initConfig({
     "clean": {
       "dev": [directories.build],
-      "dist": [directories.dist]
+      "dist": [directories.dist.root]
     },
     "copy": {
       "dist": {
@@ -28,19 +33,25 @@ module.exports = function(grunt) { // jshint ignore:line
             "expand": true,
             "flatten": true,
             "src": [directories.build + "*"],
-            "dest": directories.dist
+            "dest": directories.dist.root
           },
           {
             "expand": true,
             "flatten": true,
             "src": [directories.app.conf + "favicon/*"],
-            "dest": directories.dist
+            "dest": directories.dist.root
           },
           {
             "expand": true,
             "flatten": true,
             "src": [directories.app.images + "favicon/*"],
-            "dest": directories.dist
+            "dest": directories.dist.root
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.nodeModules + "bootstrap/dist/css/bootstrap.min.css"],
+            "dest": directories.dist.styles
           }
         ]
       }
@@ -54,7 +65,11 @@ module.exports = function(grunt) { // jshint ignore:line
           "sections": {
             "partials": {
               "meta": directories.app.views.partials + "meta.html",
-              "favicon": directories.app.views.partials + "favicon.html"
+              "favicon": directories.app.views.partials + "favicon.html",
+              "style": directories.app.views.partials + "style.html"
+            },
+            "components": {
+              "header": directories.app.views.components + "header.html"
             }
           }
         }
