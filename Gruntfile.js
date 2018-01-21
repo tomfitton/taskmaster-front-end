@@ -3,12 +3,14 @@ module.exports = function(grunt) { // jshint ignore:line
   "use strict";
 
   var directories = {
-    "appConf": "app/conf/",
-    "appImages": "app/images/",
-    "appViews": {
-      "root": "app/view/",
-      "layouts": "app/view/layouts/",
-      "partials": "app/view/partials/"
+    "app": {
+      "conf": "app/conf/",
+      "images": "app/images/",
+      "views": {
+        "root": "app/view/",
+        "layouts": "app/view/layouts/",
+        "partials": "app/view/partials/"
+      }
     },
     "build": "build/",
     "dist": "dist/"
@@ -31,13 +33,13 @@ module.exports = function(grunt) { // jshint ignore:line
           {
             "expand": true,
             "flatten": true,
-            "src": [directories.appConf + "favicon/*"],
+            "src": [directories.app.conf + "favicon/*"],
             "dest": directories.dist
           },
           {
             "expand": true,
             "flatten": true,
-            "src": [directories.appImages + "favicon/*"],
+            "src": [directories.app.images + "favicon/*"],
             "dest": directories.dist
           }
         ]
@@ -45,14 +47,14 @@ module.exports = function(grunt) { // jshint ignore:line
     },
     "htmlbuild": {
       "dist": {
-        "src": directories.appViews.layouts + "index.html",
+        "src": directories.app.views.layouts + "index.html",
         "dest": directories.build,
         "options": {
           "beautify": true,
           "sections": {
             "partials": {
-              "meta": directories.appViews.partials + "meta.html",
-              "favicon": directories.appViews.partials + "favicon.html"
+              "meta": directories.app.views.partials + "meta.html",
+              "favicon": directories.app.views.partials + "favicon.html"
             }
           }
         }
@@ -61,9 +63,9 @@ module.exports = function(grunt) { // jshint ignore:line
     "watch": {
       "dev": {
         "files": [
-          directories.appViews.root + "**",
-          directories.appConf + "**",
-          directories.appImages + "**"
+          directories.app.views.root + "**",
+          directories.app.conf + "**",
+          directories.app.images + "**"
         ],
         "tasks": ["build"],
         "options": {
