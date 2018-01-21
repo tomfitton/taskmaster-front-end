@@ -3,6 +3,8 @@ module.exports = function(grunt) { // jshint ignore:line
   "use strict";
 
   var directories = {
+    "appConf": "app/conf/",
+    "appImages": "app/images/",
     "appViews": {
       "root": "app/view/",
       "layouts": "app/view/layouts/",
@@ -25,6 +27,18 @@ module.exports = function(grunt) { // jshint ignore:line
             "flatten": true,
             "src": [directories.build + "*"],
             "dest": directories.dist
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.appConf + "favicon/*"],
+            "dest": directories.dist
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.appImages + "favicon/*"],
+            "dest": directories.dist
           }
         ]
       }
@@ -37,7 +51,8 @@ module.exports = function(grunt) { // jshint ignore:line
           "beautify": true,
           "sections": {
             "partials": {
-              "meta": directories.appViews.partials + "meta.html"
+              "meta": directories.appViews.partials + "meta.html",
+              "favicon": directories.appViews.partials + "favicon.html"
             }
           }
         }
@@ -46,7 +61,9 @@ module.exports = function(grunt) { // jshint ignore:line
     "watch": {
       "dev": {
         "files": [
-          directories.appViews.root + "**"
+          directories.appViews.root + "**",
+          directories.appConf + "**",
+          directories.appImages + "**"
         ],
         "tasks": ["build"],
         "options": {
