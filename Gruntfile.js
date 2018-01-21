@@ -37,6 +37,7 @@ module.exports = function(grunt) { // jshint ignore:line
       "dist": {
         "src": [
           directories.app.js.root + "app.js",
+          directories.app.js.root + "config.js",
           directories.app.js.services + "Board.js",
           directories.app.js.controllers + "Boards.js"
         ],
@@ -75,6 +76,18 @@ module.exports = function(grunt) { // jshint ignore:line
             "flatten": true,
             "src": [directories.nodeModules + "angular/angular.min.js"],
             "dest": directories.dist.scripts
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.nodeModules + "angular-route/angular-route.min.js"],
+            "dest": directories.dist.scripts
+          },
+          {
+            "expand": true,
+            "flatten": true,
+            "src": [directories.app.views.components + "angular/**"],
+            "dest": directories.dist.root
           }
         ]
       }
@@ -92,7 +105,6 @@ module.exports = function(grunt) { // jshint ignore:line
               "style": directories.app.views.partials + "style.html"
             },
             "components": {
-              "boards": directories.app.views.components + "boards.html",
               "header": directories.app.views.components + "header.html"
             }
           }

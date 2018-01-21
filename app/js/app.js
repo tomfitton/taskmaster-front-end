@@ -1,1 +1,1 @@
-var app = angular.module("taskmaster", []); // jshint ignore:line
+var app = angular.module("taskmaster", ["ngRoute"]); // jshint ignore:line
