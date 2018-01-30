@@ -12,6 +12,15 @@
       });
     };
 
+    this.createBoard = function(board) {
+      return $http.post(API + "/board", board)
+        .then(function(response) {
+          return response.data;
+        }).catch(function(response) {
+          throw response.data;
+        });
+    };
+
   }]);
 
 }());

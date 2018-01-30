@@ -9,6 +9,7 @@ module.exports = function(grunt) { // jshint ignore:line
       "js": {
         "root": "app/js/",
         "controllers": "app/js/controllers/",
+        "libraries": "app/js/libraries/",
         "services": "app/js/services/"
       },
       "views": {
@@ -36,10 +37,13 @@ module.exports = function(grunt) { // jshint ignore:line
     "concat": {
       "dist": {
         "src": [
+          directories.app.js.libraries + "Init.js",
+          directories.app.js.libraries + "StringUtils.js",
           directories.app.js.root + "app.js",
           directories.app.js.root + "config.js",
           directories.app.js.services + "Board.js",
-          directories.app.js.controllers + "Boards.js"
+          directories.app.js.controllers + "Boards.js",
+          directories.app.js.controllers + "CreateBoard.js"
         ],
         "dest": directories.build + "<%= pkg.name %>.js"
       }

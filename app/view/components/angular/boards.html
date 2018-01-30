@@ -1,9 +1,15 @@
 <div id="boards">
 
+  <div class="alert alert-success" data-ng-repeat="alert in successAlerts">
+    {{ alert.message }}
+  </div>
+
   <ul>
     <li data-ng-repeat="board in boards">
       {{ board.name }}
     </li>
   </ul>
+
+  <a data-ng-href="#/board/create">Create Board</a>
 
 </div>
